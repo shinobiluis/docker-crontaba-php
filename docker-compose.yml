@@ -1,0 +1,18 @@
+version: "3"
+services:
+  php:
+    build: .
+    container_name: php_cron
+    volumes:
+      # Montamos nuestra web desde fuera en el directorio web del contenedor
+      - ./www/:/var/www/html
+      # Creamos volumen de la configuracion del php.ini
+      # - ./phpini/php.ini:/usr/local/etc/php/php.ini:rw
+      # Configuramos como volumen el timezone para que el php tome la hora correcta
+      - ./phpini/99-timezone.ini:/usr/local/etc/php/conf.d/99-timezone.ini:rw
+      # Hacemos que la imagen tenga la misma hora que el servidor
+      - /usr/share/zoneinfo/America/Mexico_City:/etc/localtime
+    expose:
+      - 8080
+    ports:
+      - 8080:80
